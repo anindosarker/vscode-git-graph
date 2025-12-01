@@ -1,0 +1,1796 @@
+
+> git-graph@1.30.0 test
+> jest --verbose
+
+PASS tests/event.test.ts
+  Event Emitter
+    ✓ Registers and disposes subscribers (10 ms)
+    ✓ Disposes a specific subscriber
+    ✓ Handles duplicate disposes of a specific subscriber (1 ms)
+    ✓ Calls subscribers when an event is emitted
+
+PASS tests/logger.test.ts
+  Logger
+    ✓ Should create and dispose an output channel (1 ms)
+    ✓ Should log a message to the Output Channel
+    ✓ Should log an error to the Output Channel
+    Should log a command to the Output Channel
+      ✓ Standard arguments are unchanged (1 ms)
+      ✓ Format arguments are abbreviated
+      ✓ Arguments with spaces are surrounded with double quotes
+      ✓ Arguments with spaces are surrounded with double quotes, and any internal double quotes are escaped
+      ✓ Empty string arguments are shown as two double quotes
+      ✓ Should transform all arguments of a command, when logging it to the Output Channel
+
+PASS tests/disposable.test.ts
+  Disposable
+    ✓ Should register a disposable (1 ms)
+    ✓ Should register multiple disposables
+    ✓ Should dispose all registered disposables (1 ms)
+    ✓ Should dispose all registered disposables independently, catching any exceptions
+  toDisposable
+    ✓ Should wrap a function with a disposable
+
+PASS tests/repoFileWatcher.test.ts
+  RepoFileWatcher
+    ✓ Should start and receive file events (1 ms)
+    ✓ Should stop a previous active File System Watcher before creating a new one (1 ms)
+    ✓ Should only dispose the active File System Watcher if it exists
+    ✓ Should ignore file system events while muted
+    ✓ Should resume reporting file events after 1.5 seconds (1 ms)
+    ✓ Should ignore file system events on files ignored within .git directory
+
+PASS tests/extensionState.test.ts
+  ExtensionState
+    GitExecutable Change Event Processing
+      ✓ Should subscribe to GitExecutable change events (1 ms)
+      ✓ Should unsubscribe from GitExecutable change events after disposal
+      ✓ Should save the last known git executable path received from GitExecutable change events (1 ms)
+    getRepos
+      ✓ Should return the stored repositories
+      ✓ Should assign missing repository state variables to their default values
+      ✓ Should migrate showRemoteBranches = TRUE from boolean to enum (repository.showRemoteBranches = TRUE)
+      ✓ Should migrate showRemoteBranches = FALSE from boolean to enum (repository.showRemoteBranches = TRUE) (1 ms)
+      ✓ Should migrate showRemoteBranches = FALSE from boolean to enum (repository.showRemoteBranches = FALSE)
+      ✓ Should migrate showRemoteBranches = TRUE from boolean to enum (repository.showRemoteBranches = FALSE)
+      ✓ Should migrate multiple showRemoteBranches from boolean to enum (repository.showRemoteBranches = TRUE)
+      ✓ Should return the default value if it is not defined
+    saveRepos
+      ✓ Should store the provided repositories in the workspace state
+    transferRepo
+      ✓ Should update the last active repo and code reviews with the new repository path (1 ms)
+      ✓ Shouldn't update the last active repo or code reviews when no match is found with the transfer repository
+    getGlobalViewState
+      ✓ Should return the stored global view state
+      ✓ Should assign missing global view state variables to their default values
+      ✓ Should return the default global view state if it is not defined
+    setGlobalViewState
+      ✓ Should successfully store the global view state (1 ms)
+      ✓ Should return an error message when vscode is unable to store the global view state
+    getWorkspaceViewState
+      ✓ Should return the stored workspace view state
+      ✓ Should assign missing workspace view state variables to their default values
+      ✓ Should return the default workspace view state if it is not defined
+    setWorkspaceViewState
+      ✓ Should successfully store the workspace view state
+      ✓ Should return an error message when vscode is unable to store the workspace view state
+    getIgnoredRepos
+      ✓ Should return the stored ignored repositories
+      ✓ Should return the default value if not defined (1 ms)
+    setIgnoredRepos
+      ✓ Should successfully store the ignored repositories
+      ✓ Should return an error message when vscode is unable to store the ignored repositories
+    getLastActiveRepo
+      ✓ Should return the stored last active repository
+      ✓ Should return the default value if not defined
+    setLastActiveRepo
+      ✓ Should store the last active repository
+    getLastKnownGitPath
+      ✓ Should return the stored last active repository
+      ✓ Should return the default value if not defined
+    isAvatarStorageAvailable
+      ✓ Should return TRUE if the avatar storage folder existed on startup (1 ms)
+      ✓ Should return TRUE if the avatar storage folder was successfully created
+      ✓ Should return TRUE if the avatar storage folder was created after the initial stat check
+      ✓ Should return FALSE if the avatar storage folder could not be created
+    getAvatarStoragePath
+      ✓ Should return the avatar storage path
+    getAvatarCache
+      ✓ Should return the stored avatar cache
+      ✓ Should return the default value if not defined
+    saveAvatar
+      ✓ Should save the avatar to the avatar cache (1 ms)
+    removeAvatarFromCache
+      ✓ Should remove an avatar from the cache
+    clearAvatarCache
+      ✓ Should clear all avatars from the cache and delete all avatars that are currently stored on the file system
+      ✓ Should skip deleting avatars on the file system if they could not be listed from the file system
+      ✓ Shouldn't delete avatars on the file system if globalState.update rejects, and return the error message
+    startCodeReview
+      ✓ Should store the code review (in a repository with no prior code reviews) (1 ms)
+      ✓ Should store the code review (in a repository with a prior code review)
+      ✓ Should return an error message when vscode is unable to store the code reviews
+    endCodeReview
+      ✓ Should store the updated code reviews, without the code review that was ended (no more code reviews in repo)
+      ✓ Should store the updated code reviews, without the code review that was ended (more code reviews in repo)
+      ✓ Should not make changes to the stored code reviews if the code review that was ended no longer exists
+      ✓ Should return an error message when vscode is unable to store the code reviews (1 ms)
+    getCodeReview
+      ✓ Should return the code review, and update its last active timestamp
+      ✓ Should return NULL if no code review could be found in the specified repository
+      ✓ Should return NULL if no code review could be found with the specified id (1 ms)
+    updateCodeReview
+      ✓ Should update the reviewed files and change the last viewed file (2 ms)
+      ✓ Should update the reviewed files without changing the last viewed file
+      ✓ Should update the not reviewed files without changing the last viewed file
+      ✓ Should set the last viewed file (1 ms)
+      ✓ Should remove the code review the last file in it has been reviewed
+      ✓ Shouldn't change the state if no code review could be found in the specified repository
+      ✓ Shouldn't change the state if no code review could be found with the specified id
+      ✓ Should return an error message when workspaceState.update rejects
+    expireOldCodeReviews
+      ✓ Should delete all code reviews that have expired
+      ✓ Shouldn't make any changes when no repositories have expired
+    endAllWorkspaceCodeReviews
+      ✓ Should store the last active repository (1 ms)
+    getCodeReviews
+      ✓ Should return the stored code reviews
+      ✓ Should return the default value if not defined
+
+PASS tests/diffDocProvider.test.ts
+  DiffDocProvider
+    ✓ Should construct a DiffDocProvider, provide a document, and be disposed (2 ms)
+    ✓ Should remove a cached document once it is closed
+    ✓ Should reuse a cached document if it exists
+    ✓ Should return an empty document if requested
+    ✓ Should display an error message if an error occurred when fetching the file contents from the DataSource, and return an empty document (1 ms)
+  encodeDiffDocUri
+    ✓ Should return a file URI if requested on uncommitted changes and it is not deleted
+    ✓ Should return an empty file URI if requested on a file displayed on the old side of the diff, and it is added
+    ✓ Should return an empty file URI if requested on a file displayed on the new side of the diff, and it is deleted
+    ✓ Should return a git-graph URI with the provided file extension
+    ✓ Should return a git-graph URI with no file extension when it is not provided
+  decodeDiffDocUri
+    ✓ Should return the parsed DiffDocUriData from the URI
+
+PASS tests/statusBarItem.test.ts
+  StatusBarItem
+    ✓ Should show the Status Bar Item on vscode startup (1 ms)
+    ✓ Should hide the Status Bar Item after the number of repositories becomes zero
+    ✓ Should show the Status Bar Item after the number of repositories increases above zero (1 ms)
+    ✓ Should hide the Status Bar Item the extension setting git-graph.showStatusBarItem becomes disabled (1 ms)
+    ✓ Should ignore extension setting changes unrelated to git-graph.showStatusBarItem
+
+PASS tests/bufferedQueue.test.ts
+  BufferedQueue
+    ✓ Should add items to the queue, and then process them once the buffer has expired (795 ms)
+    ✓ Shouldn't add duplicate items to the queue (21 ms)
+    ✓ Shouldn't call onChanges if not items resulted in a change (24 ms)
+    ✓ Shouldn't trigger a new timeout if the queue is already processing events
+    ✓ Should clear the timeout when disposed
+    bufferDuration
+      ✓ Should use the default buffer duration of 1000ms (24 ms)
+      ✓ Should use the specified buffer duration (21 ms)
+
+PASS tests/utils.test.ts
+  getPathFromUri
+    ✓ Doesn't affect paths using "/" as the separator
+    ✓ Replaces "\" with "/" (1 ms)
+  getPathFromStr
+    ✓ Doesn't affect paths using "/" as the separator
+    ✓ Replaces "\" with "/"
+  pathWithTrailingSlash
+    ✓ Adds trailing "/" to path
+    ✓ Doesn't add a trailing "/" to path if it already exists
+  realpath
+    ✓ Should return the normalised canonical absolute path (1 ms)
+    ✓ Should return the normalised canonical absolute path (using the native version realpath)
+    ✓ Should return the original path if fs.realpath returns an error
+  isPathInWorkspace
+    ✓ Should return TRUE if a path is a workspace folder (1 ms)
+    ✓ Should return TRUE if a path is within a workspace folder
+    ✓ Should return FALSE if a path is not within a workspace folder
+    ✓ Should return FALSE if vscode is not running in a workspace
+  resolveToSymbolicPath
+    ✓ Should return the original path if it matches a vscode workspace folder
+    ✓ Should return the symbolic path if a vscode workspace folder resolves to it (1 ms)
+    ✓ Should return the original path if it is within a vscode workspace folder
+    ✓ Should return the symbolic path if a vscode workspace folder resolves to contain it
+    ✓ Should return the symbolic path if the vscode workspace folder resolves to be contained within it
+    ✓ Should return the original path if the vscode workspace folder resolves to be contained within it, when it was unable to find the path correspondence
+    ✓ Should return the original path if it is unrelated to the vscode workspace folders
+    ✓ Should return the original path if vscode is not running in a workspace
+  doesFileExist
+    ✓ Should return TRUE when the file exists
+    ✓ Should return FALSE when the file doesn't exist
+  abbrevCommit
+    ✓ Truncates a commit hash to eight characters (1 ms)
+    ✓ Doesn't truncate commit hashes less than eight characters
+  abbrevText
+    ✓ Abbreviates strings longer the 50 characters
+    ✓ Keep strings that are 50 characters long
+    ✓ Abbreviates strings shorter than 50 characters
+  getRelativeTimeDiff
+    ✓ Correctly formats single second
+    ✓ Correctly formats multiple seconds
+    ✓ Correctly formats single minute
+    ✓ Correctly formats multiple minutes
+    ✓ Correctly formats single hour
+    ✓ Correctly formats multiple hours
+    ✓ Correctly formats single day
+    ✓ Correctly formats multiple days
+    ✓ Correctly formats single week
+    ✓ Correctly formats multiple weeks
+    ✓ Correctly formats single month
+    ✓ Correctly formats multiple months (12 ms)
+    ✓ Correctly formats single year
+    ✓ Correctly formats multiple years
+  getExtensionVersion
+    ✓ Should return the extension's version number (1 ms)
+    ✓ Should reject if unable to read package.json file
+    ✓ Should reject if unable to parse package.json file
+  getNonce
+    ✓ Should generate a nonce 32 characters long
+  getRepoName
+    ✓ Should return entire path if it contains no "/"
+    ✓ Should return entire path if it contains a single trailing "/"
+    ✓ Should return last path segment otherwise
+    ✓ Should return last path segment otherwise (with trailing "/")
+  getSortedRepositoryPaths
+    ✓ Should sort by RepoDropdownOrder.WorkspaceFullPath (8 ms)
+    ✓ Should sort by RepoDropdownOrder.FullPath
+    ✓ Should sort by RepoDropdownOrder.Name
+  archive
+    ✓ Should trigger the creation of the archive (tar)
+    ✓ Should trigger the creation of the archive (TAR)
+    ✓ Should trigger the creation of the archive (zip) (1 ms)
+    ✓ Should trigger the creation of the archive (ZIP)
+    ✓ Should return an error message when the specified archive destination has an invalid file extension
+    ✓ Should return an error message when no file is specified for the archive
+    ✓ Should return an error message when vscode fails to show the Save Dialog
+  copyFilePathToClipboard
+    ✓ Appends the relative file path to the repository path, and copies the result to the clipboard
+    ✓ Copies the relative file path to the clipboard
+    ✓ Returns an error message when writeText fails
+  copyToClipboard
+    ✓ Copies text to the clipboard
+    ✓ Returns an error message when writeText fails
+  createPullRequest
+    ✓ Should construct and open a BitBucket Pull Request Creation Url (1 ms)
+    ✓ Should construct and open a Custom Providers Pull Request Creation Url
+    ✓ Should construct and open a GitHub Pull Request Creation Url
+    ✓ Should construct and open a GitLab Pull Request Creation Url
+    ✓ Should construct and open a GitLab Pull Request Creation Url (without destProjectId)
+    ✓ Should return an error message if vscode was unable to open the url
+  openExtensionSettings
+    ✓ Executes workbench.action.openSettings
+    ✓ Returns an error message when executeCommand fails (1 ms)
+  openExternalUrl
+    ✓ Should open the URL via Visual Studio Code
+    ✓ Should return an error message if vscode was unable to open the url (vscode.env.openExternal resolves FALSE)
+    ✓ Should return an error message if vscode was unable to open the url (vscode.env.openExternal rejects)
+    ✓ Should return an error message if vscode was unable to parse the url
+    ✓ Should return an error message with a custom type
+  openFile
+    ✓ Should open the file in vscode (with the user defined ViewColumn) (1 ms)
+    ✓ Should open the file in vscode (in the specified ViewColumn)
+    ✓ Should open a renamed file in vscode (1 ms)
+    ✓ Should return an error message if vscode was unable to open the file
+    ✓ Should return an error message if the file doesn't exist in the repository (1 ms)
+    ✓ Should return an error message if the file doesn't exist in the repository, and it wasn't renamed
+    ✓ Should return an error message if the file doesn't exist in the repository, and it was renamed
+  viewDiff
+    ✓ Should load the vscode diff view (single commit, file added) (1 ms)
+    ✓ Should load the vscode diff view (single commit, file modified)
+    ✓ Should load the vscode diff view (single commit, file deleted)
+    ✓ Should load the vscode diff view (between commits, file added) (1 ms)
+    ✓ Should load the vscode diff view (between commits, file modified)
+    ✓ Should load the vscode diff view (between commits, file deleted) (1 ms)
+    ✓ Should load the vscode diff view (between commit and uncommitted changes, file added)
+    ✓ Should load the vscode diff view (between commit and uncommitted changes, file modified) (1 ms)
+    ✓ Should load the vscode diff view (between commit and uncommitted changes, file deleted)
+    ✓ Should load the vscode diff view (uncommitted changes, file added)
+    ✓ Should load the vscode diff view (uncommitted changes, file modified) (1 ms)
+    ✓ Should load the vscode diff view (uncommitted changes, file deleted)
+    ✓ Should return an error message when vscode was unable to load the diff view
+    ✓ Should open an untracked file in vscode
+  viewDiffWithWorkingFile
+    ✓ Should load the vscode diff view (modified file)
+    ✓ Should load the vscode diff view (renamed file) (1 ms)
+    ✓ Should load the vscode diff view (deleted file)
+    ✓ Should load the vscode diff view (renamed and deleted file)
+    ✓ Should return an error message when vscode was unable to load the diff view
+  viewFileAtRevision
+    ✓ Should open the file in vscode (1 ms)
+    ✓ Should return an error message if vscode was unable to open the file
+  viewScm
+    ✓ Executes workbench.view.scm
+    ✓ Returns an error message when executeCommand fails
+  openGitTerminal
+    ✓ Should open a new terminal (3 ms)
+    ✓ Should open a new terminal and run the git command
+    ✓ Should open a new terminal and run the git command (with initially empty PATH)
+    ✓ Should open a new terminal and run the git command (with specific shell path) (1 ms)
+    ✓ Should open a new terminal and run the git command (platform: win32)
+    ✓ Should open a new terminal and run the git command (ostype: cygwin)
+    ✓ Should open a new terminal and run the git command (ostype: msys)
+  showInformationMessage
+    ✓ Should show an information message (resolves)
+    ✓ Should show an information message (rejects)
+  showErrorMessage
+    ✓ Should show an error message (resolves)
+    ✓ Should show an error message (rejects)
+  evalPromises
+    ✓ Should evaluate promises in parallel (one item in array)
+    ✓ Should evaluate promises in parallel (one item in array that rejects)
+    ✓ Should evaluate promises in parallel (empty array) (1 ms)
+    ✓ Should evaluate promises in parallel
+    ✓ Should evaluate promises in parallel that reject
+    ✓ Should evaluate promises in parallel (first rejects) (3 ms)
+  resolveSpawnOutput
+    ✓ Should resolve child process promise only once (error event first) (553 ms)
+    ✓ Should resolve child process promise only once (exit event first) (8 ms)
+  findGit
+    ✓ Should use the last known Git executable path if it still exists (3 ms)
+    ✓ Should use the users git.path if the last known Git executable path no longer exists (7 ms)
+    ✓ Should use the users git.path if there is no last known Git executable path (1 ms)
+    process.platform === 'darwin'
+      ✓ Should find and return the Git executable using "which git" (2 ms)
+      ✓ Should find and return the Git executable using when XCode & Git are installed (2 ms)
+      ✓ Should reject when "which git" throws an error
+      ✓ Should reject when "which git" succeeds, but failed to get Git executable (2 ms)
+      ✓ Should reject when "xcode-select -p" fails with exit code 2 (3 ms)
+      ✓ Should reject when "xcode-select -p" succeeds, but failed to get Git executable (2 ms)
+    process.platform === 'win32'
+      ✓ Should find Git in ProgramW6432 (2 ms)
+      ✓ Should find Git in ProgramFiles(x86) (4 ms)
+      ✓ Should find Git in ProgramFiles (4 ms)
+      ✓ Should find Git in LocalAppData (10 ms)
+      ✓ Should find Git in PATH (isFile) (8 ms)
+      ✓ Should find Git in PATH (isSymbolicLink) (7 ms)
+      ✓ Should find Git in CWD (7 ms)
+      ✓ Should reject when Git executable not in PATH (7 ms)
+    process.platform === 'unknown'
+      ✓ Should return the Git executable (2 ms)
+      ✓ Should reject when the Git executable doesn't exist (2 ms)
+  getGitExecutable
+    ✓ Should return the git version information (2 ms)
+    ✓ Should reject when an error is thrown (1 ms)
+    ✓ Should reject when the command exits with a non-zero exit code (2 ms)
+    ✓ Should reject when the command exits with a signal (1 ms)
+  getGitExecutableFromPaths
+    ✓ Should return the git version information from the first valid path (all valid) (2 ms)
+    ✓ Should return the git version information from the first valid path (first invalid) (3 ms)
+    ✓ Should reject when none of the provided paths are valid Git executables (3 ms)
+    ✓ Should reject when no paths are provided
+  doesVersionMeetRequirement
+    ✓ Should correctly determine major newer
+    ✓ Should correctly determine major older
+    ✓ Should correctly determine minor newer
+    ✓ Should correctly determine minor older
+    ✓ Should correctly determine patch newer (1 ms)
+    ✓ Should correctly determine patch older
+    ✓ Should correctly determine same version
+    ✓ Should correctly determine major newer if missing patch version
+    ✓ Should correctly determine major newer if missing minor & patch versions
+    ✓ Should only use the valid portion of the version number to compute the result
+    ✓ Should return TRUE if executable version is invalid
+  constructIncompatibleGitVersionMessage
+    ✓ Should return the constructed message
+
+PASS tests/config.test.ts
+  Config
+    ✓ Should construct a Config instance
+    ✓ Should construct a Config instance (for a specific repository)
+    commitDetailsView
+      autoCenter
+        ✓ Should return TRUE when the configuration value is TRUE (1 ms)
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy
+        ✓ Should return FALSE when the configuration value is falsy
+        ✓ Should return the default value (TRUE) when the configuration value is unknown
+      fileTreeCompactFolders
+        ✓ Should return TRUE when the configuration value is TRUE
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy (1 ms)
+        ✓ Should return FALSE when the configuration value is falsy (1 ms)
+        ✓ Should return the default value (TRUE) when the configuration value is unknown
+      fileViewType
+        ✓ Should return FileViewType.Tree when the configuration value is "File Tree"
+        ✓ Should return FileViewType.List when the configuration value is "File List"
+        ✓ Should return the default value (FileViewType.Tree) when the configuration value is invalid
+        ✓ Should return the default value (FileViewType.Tree) when the configuration value is unknown
+      location
+        ✓ Should return CommitDetailsViewLocation.Inline when the configuration value is "Inline"
+        ✓ Should return CommitDetailsViewLocation.DockedToBottom when the configuration value is "Docked to Bottom" (1 ms)
+        ✓ Should return the default value (CommitDetailsViewLocation.Inline) when the configuration value is invalid
+        ✓ Should return the default value (CommitDetailsViewLocation.Inline) when the configuration value is unknown
+    contextMenuActionsVisibility
+      ✓ Should return the default value (all items enabled) when the configuration value is invalid
+      ✓ Should return the default value (all items enabled) when the configuration value is not set
+      ✓ Should only affect the provided configuration overrides
+    customBranchGlobPatterns
+      ✓ Should return a filtered array of glob patterns based on the configuration value (1 ms)
+      ✓ Should return the default value ([]) when the configuration value is not set
+    customEmojiShortcodeMappings
+      ✓ Should return a filtered array of emoji shortcode mappings based on the configuration value
+      ✓ Should return the default value ([]) when the configuration value is not set
+    customPullRequestProviders
+      ✓ Should return a filtered array of pull request providers based on the configuration value
+      ✓ Should return the default value ([]) when the configuration value is invalid
+      ✓ Should return the default value ([]) when the configuration value is not set
+    dateFormat
+      ✓ Should successfully parse the configuration value "Date & Time"
+      ✓ Should successfully parse the configuration value "Date Only" (1 ms)
+      ✓ Should successfully parse the configuration value "ISO Date & Time"
+      ✓ Should successfully parse the configuration value "ISO Date Only"
+      ✓ Should successfully parse the configuration value "Relative"
+      ✓ Should return the default value when the configuration value is invalid
+      ✓ Should return the default value when the configuration value is unknown
+    dateType
+      ✓ Should return DateType.Author when the configuration value is "Author Date"
+      ✓ Should return DateType.Commit when the configuration value is "Commit Date"
+      ✓ Should return the default value (DateType.Author) when the configuration value is invalid
+      ✓ Should return the default value (DateType.Author) when the configuration value is unknown
+    defaultColumnVisibility
+      ✓ Should successfully parse the configuration value (Date column disabled) (1 ms)
+      ✓ Should successfully parse the configuration value (Author column disabled)
+      ✓ Should successfully parse the configuration value (Commit  column disabled)
+      ✓ Should return the default value when the configuration value is invalid (not an object)
+      ✓ Should return the default value when the configuration value is invalid (NULL)
+      ✓ Should return the default value when the configuration value is invalid (column value is not a boolean)
+      ✓ Should return the default value when the configuration value is not set
+    dialogDefaults
+      ✓ Should return TRUE values for boolean-based configuration values when they are TRUE (1 ms)
+      ✓ Should return FALSE values for boolean-based configuration values when they are FALSE (1 ms)
+      ✓ Should return TRUE values for boolean-based configuration values when they are truthy (1 ms)
+      ✓ Should return FALSE values for boolean-based configuration values when they are falsy (1 ms)
+      ✓ Should return the default values for text-based configuration values when they are invalid (1 ms)
+      ✓ Should return the default values when the configuration values are not set (1 ms)
+      dialogDefaults.addTag.type
+        ✓ Should return TagType.Annotated when the configuration value is "Annotated"
+        ✓ Should return TagType.Lightweight when the configuration value is "Lightweight"
+      dialogDefaults.general.referenceInputSpaceSubstitution
+        ✓ Should return NULL when the configuration value is "None"
+        ✓ Should return "-" when the configuration value is "Hyphen"
+        ✓ Should return "_" when the configuration value is "Underscore"
+        ✓ Should return the default value (NULL) when the configuration value is invalid
+      dialogDefaults.resetCommit.mode
+        ✓ Should return GitResetMode.Hard when the configuration value is "Hard"
+        ✓ Should return GitResetMode.Mixed when the configuration value is "Mixed"
+        ✓ Should return GitResetMode.Soft when the configuration value is "Soft"
+      dialogDefaults.resetUncommitted.mode
+        ✓ Should return GitResetMode.Hard when the configuration value is "Hard"
+        ✓ Should return GitResetMode.Mixed when the configuration value is "Mixed"
+    squashMergeMessageFormat
+      ✓ Should return SquashMessageFormat.Default when the configuration value is "Default" (1 ms)
+      ✓ Should return SquashMessageFormat.GitSquashMsg when the configuration value is "Git SQUASH_MSG"
+      ✓ Should return the default value (SquashMessageFormat.Default) when the configuration value is invalid
+      ✓ Should return the default value (SquashMessageFormat.Default) when the configuration value is not set
+    squashPullMessageFormat
+      ✓ Should return SquashMessageFormat.Default when the configuration value is "Default"
+      ✓ Should return SquashMessageFormat.GitSquashMsg when the configuration value is "Git SQUASH_MSG"
+      ✓ Should return the default value (SquashMessageFormat.Default) when the configuration value is invalid
+      ✓ Should return the default value (SquashMessageFormat.Default) when the configuration value is not set
+    enhancedAccessibility
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy (1 ms)
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    fileEncoding
+      ✓ Should return the configured value
+      ✓ Should return the default configuration value ("utf8")
+    graph
+      colours
+        ✓ Should return a filtered array of colours based on the configuration value (1 ms)
+        ✓ Should return the default value when the configuration value is invalid (not an array)
+        ✓ Should return the default value when the configuration value is invalid (an empty array)
+        ✓ Should return the default value when the configuration value is unknown
+      style
+        ✓ Should return GraphStyle.Rounded when the configuration value is "rounded"
+        ✓ Should return GraphStyle.Angular when the configuration value is "angular"
+        ✓ Should return the default value (GraphStyle.Rounded) when the configuration value is invalid (1 ms)
+        ✓ Should return the default value (GraphStyle.Rounded) when the configuration value is unknown
+      uncommittedChanges
+        ✓ Should return GraphUncommittedChangesStyle.OpenCircleAtTheUncommittedChanges when the configuration value is "Open Circle at the Uncommitted Changes"
+        ✓ Should return GraphUncommittedChangesStyle.OpenCircleAtTheCheckedOutCommit when the configuration value is "Open Circle at the Checked Out Commit"
+        ✓ Should return the default value (GraphUncommittedChangesStyle.OpenCircleAtTheUncommittedChanges) when the configuration value is invalid
+        ✓ Should return the default value (GraphUncommittedChangesStyle.OpenCircleAtTheUncommittedChanges) when the configuration value is unknown
+    integratedTerminalShell
+      ✓ Should return the configured value
+      ✓ Should return the default configuration value ("")
+    keybindings
+      find
+        ✓ Should return the configured keybinding
+        ✓ Should return the configured keybinding (unassigned) (1 ms)
+        ✓ Should return the default keybinding when the value is not one of the available keybindings
+        ✓ Should return the default keybinding when the value is invalid
+        ✓ Should return the default keybinding
+      refresh
+        ✓ Should return the configured keybinding
+        ✓ Should return the configured keybinding (unassigned)
+        ✓ Should return the default keybinding when the value is not one of the available keybindings
+        ✓ Should return the default keybinding when the value is invalid
+        ✓ Should return the default keybinding
+      scrollToHead
+        ✓ Should return the configured keybinding
+        ✓ Should return the configured keybinding (unassigned)
+        ✓ Should return the default keybinding when the value is not one of the available keybindings (1 ms)
+        ✓ Should return the default keybinding when the value is invalid
+        ✓ Should return the default keybinding
+      scrollToStash
+        ✓ Should return the configured keybinding
+        ✓ Should return the configured keybinding (unassigned)
+        ✓ Should return the default keybinding when the value is not one of the available keybindings
+        ✓ Should return the default keybinding when the value is invalid
+        ✓ Should return the default keybinding
+    markdown
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set (1 ms)
+    maxDepthOfRepoSearch
+      ✓ Should return the configured value
+      ✓ Should return the default configuration value (0)
+    openNewTabEditorGroup
+      ✓ Should return vscode.ViewColumn.Active when the configuration value is "Active"
+      ✓ Should return vscode.ViewColumn.Beside when the configuration value is "Beside"
+      ✓ Should return vscode.ViewColumn.One when the configuration value is "One"
+      ✓ Should return vscode.ViewColumn.Two when the configuration value is "Two"
+      ✓ Should return vscode.ViewColumn.Three when the configuration value is "Three"
+      ✓ Should return vscode.ViewColumn.Four when the configuration value is "Four" (1 ms)
+      ✓ Should return vscode.ViewColumn.Five when the configuration value is "Five"
+      ✓ Should return vscode.ViewColumn.Six when the configuration value is "Six"
+      ✓ Should return vscode.ViewColumn.Seven when the configuration value is "Seven"
+      ✓ Should return vscode.ViewColumn.Eight when the configuration value is "Eight"
+      ✓ Should return vscode.ViewColumn.Nine when the configuration value is "Nine"
+      ✓ Should return the default value (vscode.ViewColumn.Active) when the configuration value is invalid
+      ✓ Should return the default value (vscode.ViewColumn.Active) when the configuration value is unknown
+    openToTheRepoOfTheActiveTextEditorDocument
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE (1 ms)
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy (8 ms)
+      ✓ Should return the default value (FALSE) when the configuration value is not set (1 ms)
+    referenceLabels
+      combineLocalAndRemoteBranchLabels
+        ✓ Should return TRUE when the configuration value is TRUE
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy
+        ✓ Should return FALSE when the configuration value is falsy
+        ✓ Should return the default value (TRUE) when the configuration value is unknown
+      branchLabelsAlignedToGraph & tagLabelsOnRight
+        ✓ Should return correct alignment values when the configuration value is "Normal"
+        ✓ Should return correct alignment values when the configuration value is "Branches (on the left) & Tags (on the right)"
+        ✓ Should return correct alignment values when the configuration value is "Branches (aligned to the graph) & Tags (on the right)" (1 ms)
+        ✓ Should return the default values when the configuration value is invalid
+        ✓ Should return the default values when the configuration value is unknown
+    fetchAvatars
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    initialLoadCommits
+      ✓ Should return the configured value
+      ✓ Should return the default configuration value (300) (1 ms)
+    loadMoreCommits
+      ✓ Should return the configured value
+      ✓ Should return the default configuration value (100)
+    loadMoreCommitsAutomatically
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    muteCommits
+      commitsNotAncestorsOfHead
+        ✓ Should return TRUE when the configuration value is TRUE
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy (1 ms)
+        ✓ Should return FALSE when the configuration value is falsy
+        ✓ Should return the default value (FALSE) when the configuration value is unknown
+      mergeCommits
+        ✓ Should return TRUE when the configuration value is TRUE
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy
+        ✓ Should return FALSE when the configuration value is falsy
+        ✓ Should return the default value (TRUE) when the configuration value is unknown
+    commitOrder
+      ✓ Should return CommitOrdering.Date when the configuration value is "date"
+      ✓ Should return CommitOrdering.AuthorDate when the configuration value is "author-date" (1 ms)
+      ✓ Should return CommitOrdering.Topological when the configuration value is "topo"
+      ✓ Should return the default value (CommitOrdering.Date) when the configuration value is invalid
+      ✓ Should return the default value (CommitOrdering.Date) when the configuration value is unknown
+    fetchAndPrune
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    fetchAndPruneTags
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy (1 ms)
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    includeCommitsMentionedByReflogs
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    onRepoLoad
+      scrollToHead
+        ✓ Should return TRUE when the configuration value is TRUE
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy
+        ✓ Should return FALSE when the configuration value is falsy
+        ✓ Should return the default value (FALSE) when the configuration value is unknown (1 ms)
+      showCheckedOutBranch
+        ✓ Should return TRUE when the configuration value is TRUE
+        ✓ Should return FALSE when the configuration value is FALSE
+        ✓ Should return TRUE when the configuration value is truthy
+        ✓ Should return FALSE when the configuration value is falsy
+        ✓ Should return the default value (FALSE) when the configuration value is unknown
+      showSpecificBranches
+        ✓ Should return all branches when correctly configured
+        ✓ Should filter out all non-string branches
+        ✓ Should return the default value ([]) when the configuration value is invalid
+        ✓ Should return the default value ([]) when the configuration value is unknown (1 ms)
+    onlyFollowFirstParent
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    showCommitsOnlyReferencedByTags
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    showSignatureStatus
+      ✓ Should return TRUE when the configuration value is TRUE (1 ms)
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    showRemoteBranches
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    showRemoteHeads
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy (1 ms)
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    showStashes
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set (1 ms)
+    showTags
+      ✓ Should return TRUE when the configuration value is TRUE (1 ms)
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    showUncommittedChanges
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE (2 ms)
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy (1 ms)
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    showUntrackedFiles
+      ✓ Should return TRUE when the configuration value is TRUE (1 ms)
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    signCommits
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set (1 ms)
+    signTags
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    useMailmap
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (FALSE) when the configuration value is not set
+    repoDropdownOrder
+      ✓ Should return RepoDropdownOrder.Name when the configuration value is "Name"
+      ✓ Should return RepoDropdownOrder.FullPath when the configuration value is "Full Path"
+      ✓ Should return RepoDropdownOrder.WorkspaceFullPath when the configuration value is "Workspace Full Path" (1 ms)
+      ✓ Should return the default value (RepoDropdownOrder.WorkspaceFullPath) when the configuration value is invalid
+      ✓ Should return the default value (RepoDropdownOrder.WorkspaceFullPath) when the configuration value is not set
+    retainContextWhenHidden
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    showStatusBarItem
+      ✓ Should return TRUE when the configuration value is TRUE
+      ✓ Should return FALSE when the configuration value is FALSE
+      ✓ Should return TRUE when the configuration value is truthy
+      ✓ Should return FALSE when the configuration value is falsy
+      ✓ Should return the default value (TRUE) when the configuration value is not set
+    tabIconColourTheme
+      ✓ Should return TabIconColourTheme.Colour when the configuration value is "colour"
+      ✓ Should return TabIconColourTheme.Grey when the configuration value is "grey"
+      ✓ Should return the default value (TabIconColourTheme.Colour) when the configuration value is invalid (1 ms)
+      ✓ Should return the default value (TabIconColourTheme.Colour) when the configuration value is not set
+    gitPaths
+      ✓ Should return the configured path
+      ✓ Should return the valid configured paths
+      ✓ Should return an empty array when the configuration value is NULL
+      ✓ Should return an empty array when the configuration value is invalid
+      ✓ Should return an empty array when the default configuration value (NULL) is received
+    getRenamedExtensionSetting
+      ✓ Should return new workspace value
+      ✓ Should return old workspace value
+      ✓ Should return new global value
+      ✓ Should return old global value
+      ✓ Should return the default value
+
+(node:73237) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+FAIL tests/avatarManager.test.ts
+  AvatarManager
+    ✓ Should construct an AvatarManager, and be disposed (1 ms)
+    fetchAvatarImage
+      ✓ Should trigger the avatar to be emitted when a known avatar is fetched
+      ✓ Should fetch an avatar when the existing avatar is over 14 days old
+      ✓ Shouldn't replace the existing avatar if it wasn't an identicon and the new avatar is (1 ms)
+      ✓ Should fetch an avatar when the existing identicon is over 4 days old
+      ✓ Should fetch multiple avatars (2 ms)
+      ✓ Should fetch a new avatar when the existing image can't be read
+      ✓ Should fetch a new avatar, but not send it to the Git Graph View (20 ms)
+      ✓ Should fetch a new avatar, and log when it fails to send it to the Git Graph View (20 ms)
+      ✓ Should add new commits to existing records queued for the same user in the same repository (21 ms)
+      ✓ Should insert requests into the priority queue in the correct order (21 ms)
+      GitHub
+        ✕ Should fetch a new avatar from GitHub (HTTPS Remote) (8 ms)
+        ✕ Should fetch a new avatar from GitHub (SSH Remote) (1 ms)
+        ✓ Should fallback to Gravatar when there is no avatar_url are in the GitHub response
+        ✓ Should fallback to Gravatar when an unexpected status code is received from the GitHub API (1 ms)
+        ✕ Should halt fetching the avatar when the GitHub avatar url request is unsuccessful (33 ms)
+        ✓ Should requeue the request when the GitHub API cannot find the commit (23 ms)
+        ✓ Should set the GitHub API timeout and requeue the request when the rate limit is reached (23 ms)
+        ✓ Should set the GitHub API timeout and requeue the request when the API returns a 5xx error (22 ms)
+        ✓ Should set the GitHub API timeout and requeue the request when there is an HTTPS Client Request Error (20 ms)
+        ✓ Should set the GitHub API timeout and requeue the request when there is an HTTPS Incoming Message Error (22 ms)
+        ✓ Should set the GitHub API timeout and requeue the request once when there are multiple HTTPS Error Events (21 ms)
+        ✓ Should requeue the request when it's before the GitHub API timeout (20 ms)
+      GitLab
+        ✓ Should fetch a new avatar from GitLab (HTTPS Remote) (1 ms)
+        ✓ Should fetch a new avatar from GitLab (SSH Remote)
+        ✓ Should fallback to Gravatar when no users are in the GitLab response
+        ✓ Should fallback to Gravatar when an unexpected status code is received from the GitLab API (1 ms)
+        ✓ Should halt fetching the avatar when the GitLab avatar url request is unsuccessful (20 ms)
+        ✓ Should set the GitLab API timeout and requeue the request when the rate limit is reached (21 ms)
+        ✓ Should set the GitLab API timeout and requeue the request when the API returns a 5xx error (21 ms)
+        ✓ Should set the GitLab API timeout and requeue the request when there is an HTTPS Client Request Error (20 ms)
+        ✓ Should set the GitLab API timeout and requeue the request when there is an HTTPS Incoming Message Error (21 ms)
+        ✓ Should set the GitLab API timeout and requeue the request once when there are multiple HTTPS Error Events (20 ms)
+        ✓ Should requeue the request when it's before the GitLab API timeout (20 ms)
+      Gravatar
+        ✓ Should fetch a new avatar from Gravatar (22 ms)
+        ✓ Should fetch an identicon if no avatar can be found on Gravatar (1 ms)
+        ✓ Should not save an avatar if it cannot be fetched from Gravatar (20 ms)
+        ✓ Should fetch an avatar from Gravatar when no remote is specified (1 ms)
+        ✓ Should fetch an avatar from Gravatar when the remote hostname is not GitHub or GitLab
+        ✓ Should fetch an identicon the avatar fails to be saved
+        ✓ Should fetch an identicon if the first avatar request receives an HTTPS Client Request Error (1 ms)
+        ✓ Should fetch an identicon if the first avatar request receives an HTTPS Incoming Message Error
+        ✓ Should fetch an identicon once if the first avatar request receives multiple HTTPS Error Events
+        ✓ Should fetch an identicon the first avatar HTTPS request throws an expected exception (1 ms)
+    getAvatarImage
+      ✓ Should return a Data Url of the avatar's image data
+      ✓ Should return null when the avatar file could not be read from the file system (1 ms)
+      ✓ Should return null when no avatar exists for the provided email address
+    clearCache
+      ✓ Should clear the cache of avatars
+      ✓ Should return the error message returned by ExtensionState.clearAvatarCache
+
+  ● AvatarManager › fetchAvatarImage › GitHub › Should fetch a new avatar from GitHub (HTTPS Remote)
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"agent": false, "headers": {"User-Agent": "vscode-git-graph"}, "hostname": "avatar-url", "path": "/&size=162", "timeout": 15000}, Anything
+    Received
+           1
+              Object {
+                "agent": false,
+                "headers": Object {
+                  "User-Agent": "vscode-git-graph",
+                },
+            -   "hostname": "avatar-url",
+            -   "path": "/&size=162",
+            +   "hostname": "api.github.com",
+            +   "path": "/repos/mhutchie/test-repo/commits/1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b",
+                "timeout": 15000,
+              },
+              [Function anonymous],
+           2
+              Object {
+                "agent": false,
+                "headers": Object {
+                  "User-Agent": "vscode-git-graph",
+                },
+            -   "hostname": "avatar-url",
+            -   "path": "/&size=162",
+            +   "hostname": "avatar-url&size=162",
+            +   "path": "/",
+                "timeout": 15000,
+              },
+              [Function anonymous],
+
+    Number of calls: 2
+
+      134 | 					timeout: 15000
+      135 | 				}, expect.anything());
+    > 136 | 				expect(spyOnHttpsGet).toHaveBeenCalledWith({
+          | 				                      ^
+      137 | 					hostname: 'avatar-url',
+      138 | 					path: '/&size=162',
+      139 | 					headers: { 'User-Agent': 'vscode-git-graph' },
+
+      at tests/avatarManager.test.ts:136:27
+      at fulfilled (tests/avatarManager.test.ts:5:58)
+
+  ● AvatarManager › fetchAvatarImage › GitHub › Should fetch a new avatar from GitHub (SSH Remote)
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"agent": false, "headers": {"User-Agent": "vscode-git-graph"}, "hostname": "avatar-url", "path": "/&size=162", "timeout": 15000}, Anything
+    Received
+           1
+              Object {
+                "agent": false,
+                "headers": Object {
+                  "User-Agent": "vscode-git-graph",
+                },
+            -   "hostname": "avatar-url",
+            -   "path": "/&size=162",
+            +   "hostname": "api.github.com",
+            +   "path": "/repos/mhutchie/test-repo/commits/2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c",
+                "timeout": 15000,
+              },
+              [Function anonymous],
+           2
+              Object {
+                "agent": false,
+                "headers": Object {
+                  "User-Agent": "vscode-git-graph",
+                },
+            -   "hostname": "avatar-url",
+            -   "path": "/&size=162",
+            +   "hostname": "avatar-url&size=162",
+            +   "path": "/",
+                "timeout": 15000,
+              },
+              [Function anonymous],
+
+    Number of calls: 2
+
+      184 | 					timeout: 15000
+      185 | 				}, expect.anything());
+    > 186 | 				expect(spyOnHttpsGet).toHaveBeenCalledWith({
+          | 				                      ^
+      187 | 					hostname: 'avatar-url',
+      188 | 					path: '/&size=162',
+      189 | 					headers: { 'User-Agent': 'vscode-git-graph' },
+
+      at tests/avatarManager.test.ts:186:27
+      at fulfilled (tests/avatarManager.test.ts:5:58)
+
+  ● AvatarManager › fetchAvatarImage › GitHub › Should halt fetching the avatar when the GitHub avatar url request is unsuccessful
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"agent": false, "headers": {"User-Agent": "vscode-git-graph"}, "hostname": "avatar-url", "path": "/&size=162", "timeout": 15000}, Anything
+    Received
+           1
+              Object {
+                "agent": false,
+                "headers": Object {
+                  "User-Agent": "vscode-git-graph",
+                },
+            -   "hostname": "avatar-url",
+            -   "path": "/&size=162",
+            +   "hostname": "api.github.com",
+            +   "path": "/repos/mhutchie/test-repo/commits/1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b",
+                "timeout": 15000,
+              },
+              [Function anonymous],
+           2
+              Object {
+                "agent": false,
+                "headers": Object {
+                  "User-Agent": "vscode-git-graph",
+                },
+            -   "hostname": "avatar-url",
+            -   "path": "/&size=162",
+            +   "hostname": "avatar-url&size=162",
+            +   "path": "/",
+                "timeout": 15000,
+              },
+              [Function anonymous],
+
+    Number of calls: 2
+
+      303 | 					timeout: 15000
+      304 | 				}, expect.anything());
+    > 305 | 				expect(spyOnHttpsGet).toHaveBeenCalledWith({
+          | 				                      ^
+      306 | 					hostname: 'avatar-url',
+      307 | 					path: '/&size=162',
+      308 | 					headers: { 'User-Agent': 'vscode-git-graph' },
+
+      at tests/avatarManager.test.ts:305:27
+      at fulfilled (tests/avatarManager.test.ts:5:58)
+
+PASS tests/dataSource.test.ts
+  DataSource
+    isGitExecutableUnknown
+      ✓ Should return FALSE when the Git executable is known (1 ms)
+      ✓ Should return TRUE when the Git executable is unknown (1 ms)
+      ✓ Should return TRUE after a Git executable becomes known
+    setGitExecutable
+      ✓ Should set gitExecutableSupportsGpgInfo to FALSE when there is no Git executable
+      ✓ Should set gitExecutableSupportsGpgInfo to FALSE when the Git executable is older than 2.4.0
+      ✓ Should set gitExecutableSupportsGpgInfo to TRUE when the Git executable is at least 2.4.0 (1 ms)
+    getRepoInfo
+      ✓ Should return the repository info (395 ms)
+      ✓ Should return the repository info (when showRemoteBranches is FALSE) (2 ms)
+      ✓ Should return the repository info (using git-graph.date.type) (2 ms)
+      ✓ Should return the repository info (using git-graph.dateType) (2 ms)
+      ✓ Should return the repository info (using git-graph.repository.useMailmap) (1 ms)
+      ✓ Should return the repository info (using git-graph.useMailmap) (2 ms)
+      ✓ Should return the repository info (showStashes is FALSE) (1 ms)
+      ✓ Should return the repository info (hidden remote and an invalid branch) (2 ms)
+      ✓ Should return the repository info (excluding remote heads) (1 ms)
+      ✓ Should return an error message thrown by git (when getting branches) (2 ms)
+      ✓ Should return an error message thrown by git (when getting remotes) (1 ms)
+      ✓ Should return no stashes when when getting stashes throws an error (1 ms)
+    getCommits
+      ✓ Should return the commits (show all branches) (3 ms)
+      ✓ Should return the commits (master & develop branches) (3 ms)
+      ✓ Should return the commits (no more commits) (2 ms)
+      ✓ Should return the commits (HEAD is not in the commits) (2 ms)
+      ✓ Should return the commits (showUncommittedChanges === FALSE) (2 ms)
+      ✓ Should return the commits (showUntrackedFiles === FALSE) (2 ms)
+      ✓ Should return the commits (showTags === FALSE) (3 ms)
+      ✓ Should return the commits (showCommitsOnlyReferencedByTags === FALSE) (3 ms)
+      ✓ Should return the commits (showRemoteBranches === FALSE) (3 ms)
+      ✓ Should return the commits (includeCommitsMentionedByReflogs === TRUE) (3 ms)
+      ✓ Should return the commits (onlyFollowFirstParent === TRUE) (2 ms)
+      ✓ Should return the commits (showRemoteHeads === FALSE) (3 ms)
+      ✓ Should return the commits (hiding the remote branches from a hidden remote) (3 ms)
+      ✓ Should return the commits (stash returned in git log commits) (2 ms)
+      ✓ Should return the commits (stashes are based on different commits returned by git log) (3 ms)
+      ✓ Should return the commits (stashes are based on a commit returned by git log) (2 ms)
+      ✓ Should return the commits (stash isn't based on a commit returned by git log) (3 ms)
+      ✓ Should return the commits (no uncommitted changes) (3 ms)
+      ✓ Should return no commits (when in an empty repository) (1 ms)
+      ✓ Should return the commits (ignoring invalid show-ref records) (3 ms)
+      ✓ Should return an error message thrown by git (when thrown by git log) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git show-ref) (2 ms)
+    getConfig
+      ✓ Should return the config values (2 ms)
+      ✓ Should return the config values (1 ms)
+      ✓ Should return NULL values when the config variables aren't set (2 ms)
+      ✓ Should return the repositories settings (ignoring Git exception when either the global or local .gitconfig file doesn't exist) (1 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+      ✓ Should return an error message indicating an unexpected error occurred
+    getCommitDetails
+      ✓ Should return the commit details (2 ms)
+      ✓ Should return the commit details (commit doesn't have parents) (1 ms)
+      ✓ Should return the commit details (using git-graph.repository.commits.showSignatureStatus) (2 ms)
+      ✓ Should return the commit details (using git-graph.showSignatureStatus) (2 ms)
+      ✓ Should return the commit details (without signature status) when Git is older than 2.4.0 (1 ms)
+      ✓ Should return the commit details (using git-graph.repository.useMailmap) (2 ms)
+      ✓ Should return the commit details (handling unknown Git file status returned by git diff --name-status) (2 ms)
+      ✓ Should return the commit details (handling unexpected response format returned by git diff --numstat) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git show) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff-tree --name-status) (2 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff-tree --numstat) (1 ms)
+    getStashDetails
+      ✓ Should return the stash details (2 ms)
+      ✓ Should return the stash details (including untracked files) (2 ms)
+      ✓ Should return an error message thrown by git (when thrown by git show) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff-tree --name-status) (2 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff-tree --numstat) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by untracked git diff-tree --name-status) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by untracked git diff-tree --numstat) (2 ms)
+    getUncommittedDetails
+      ✓ Should return the uncommitted changes (2 ms)
+      ✓ Should return the uncommitted changes (showUntrackedFiles === FALSE) (1 ms)
+      ✓ Should return the uncommitted changes (halting invalid git status response) (2 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff --name-status) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff --numstat) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git status) (2 ms)
+    getCommitComparison
+      ✓ Should return the commit comparison (between a commit and the uncommitted changes) (2 ms)
+      ✓ Should return the commit comparison (between two commits) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff --name-status) (2 ms)
+      ✓ Should return an error message thrown by git (when thrown by git diff --numstat) (1 ms)
+      ✓ Should return an error message thrown by git (when thrown by git status) (2 ms)
+    getCommitFile
+      ✓ Should return the file contents (7 ms)
+      ✓ Should return the file contents (falling back to utf8 if the encoding is unknown) (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    getCommitSubject
+      ✓ Return the commit subject of a commit (2 ms)
+      ✓ Should return NULL when git threw an error (1 ms)
+    getRemoteUrl
+      ✓ Should return the url of the remote (1 ms)
+      ✓ Should return NULL when git threw an error (2 ms)
+    getNewPathOfRenamedFile
+      ✓ Should return the new path of a file that was renamed (1 ms)
+      ✓ Should return NULL when a file wasn't renamed (1 ms)
+      ✓ Should return NULL when git threw an error (2 ms)
+    getTagDetails
+      ✓ Should return the tag's details (1 ms)
+      ✓ Should return the tag's details (when email isn't enclosed by <>) (1 ms)
+      ✓ Should return the tag's details (contents contains separator) (2 ms)
+      ✓ Should return the "Incompatible Git Version" error message when viewing tag details and Git is older than 1.7.8
+      ✓ Should return the "Unable to Find Git" error message when no Git executable is known
+      ✓ Should return an error message thrown by git (1 ms)
+      getTagSignature
+        ✓ Should parse and return a GOODSIG (3 ms)
+        ✓ Should parse and return a BADSIG (3 ms)
+        ✓ Should parse and return an ERRSIG (3 ms)
+        ✓ Should parse and return an EXPSIG (2 ms)
+        ✓ Should parse and return an EXPKEYSIG (3 ms)
+        ✓ Should parse and return a REVKEYSIG (2 ms)
+        ✓ Should parse TRUST_UNDEFINED, and apply it to a GOODSIG (3 ms)
+        ✓ Should parse TRUST_NEVER, and apply it to a GOODSIG (3 ms)
+        ✓ Should parse TRUST_UNDEFINED, and NOT apply it to a BADSIG (2 ms)
+        ✓ Should return a signature with status GitSignatureStatus.CannotBeChecked when no signature can be parsed (3 ms)
+        ✓ Should return a signature with status GitSignatureStatus.CannotBeChecked when multiple exclusive statuses exist (3 ms)
+        ✓ Should ignore records that don't start with "[GNUPG:]" (3 ms)
+        ✓ Should parse signatures from stdout when there is not content on stderr (for compatibility - normally output is on stderr) (2 ms)
+        ✓ Should parse signatures from stderr, when both stdout & stderr have content (for compatibility - normally output is on stderr) (2 ms)
+        ✓ Should ignore the Git exit code when parsing signatures (3 ms)
+    getSubmodules
+      ✓ Should return no submodules if no .gitmodules file exists
+      ✓ Should return the submodules when a .gitmodules file exists (5 ms)
+    repoRoot
+      ✓ Should return the same directory when called from the root of the repository (1 ms)
+      ✓ Should return the same directory when called from the a path resolving to the root of the repository (2 ms)
+      ✓ Should return the root directory when called from a subdirectory of the repository (1 ms)
+      ✓ Should return the symbolic directory when called from a subdirectory of the repository (2 ms)
+      ✓ Should return the canonical root directory when failed to find match (1 ms)
+      ✓ Should return NULL when git threw an error (1 ms)
+      Windows Mapped Network Drive Resolution
+        ✓ Should not alter non-network share drives (1 ms)
+        ✓ Should resolve the UNC Path Prefix of a path on a network share (2 ms)
+        ✓ Should resolve the UNC Path Prefix of a path on a network share (when native realpath doesn't return a trailing slash) (1 ms)
+        ✓ Should not adjust the path if the native realpath can't resolve the Mapped Network Drive Letter (4 ms)
+        ✓ Should not adjust the path if the native realpath resolves the Mapped Network Drive Letter to a different UNC Path Prefix (2 ms)
+    addRemote
+      ✓ Should add a remote (2 ms)
+      ✓ Should add a remote (with a push url) (2 ms)
+      ✓ Should add and fetch a remote (3 ms)
+      ✓ Should return an error message thrown by git (when adding the remote) (1 ms)
+      ✓ Should return an error message thrown by git (when adding the push url) (3 ms)
+    deleteRemote
+      ✓ Should delete a remote (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    editRemote
+      ✓ Should rename a remote (2 ms)
+      ✓ Should delete the url of a remote (1 ms)
+      ✓ Should add a url to the remote (2 ms)
+      ✓ Should update the url of a the remote (1 ms)
+      ✓ Should delete the push url of a remote (1 ms)
+      ✓ Should add a push url to the remote (1 ms)
+      ✓ Should update the push url of a the remote (1 ms)
+      ✓ Should return an error message thrown by git (when renaming a remote) (1 ms)
+      ✓ Should return an error message thrown by git (when adding a url) (2 ms)
+      ✓ Should return an error message thrown by git (when adding a push url) (1 ms)
+    pruneRemote
+      ✓ Should prune a remote (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    addTag
+      ✓ Should add a lightweight tag to a commit (1 ms)
+      ✓ Should add an annotated tag to a commit (2 ms)
+      ✓ Should add a signed tag to a commit (1 ms)
+      ✓ Should force add a tag to a commit (1 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+    deleteTag
+      ✓ Should delete a tag (1 ms)
+      ✓ Should delete a tag (also on a remote) (3 ms)
+      ✓ Should return an error message thrown by git (when deleting a tag) (1 ms)
+      ✓ Should return an error message thrown by git (when deleting a tag also on a remote) (2 ms)
+    fetch
+      ✓ Should fetch all remotes (1 ms)
+      ✓ Should fetch a specific remote (1 ms)
+      ✓ Should fetch and prune all remotes (2 ms)
+      ✓ Should fetch and prune all remotes (and prune tags) (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+      ✓ Should return an error message when pruning tags, but pruning is not enabled (all remotes) (1 ms)
+      ✓ Should return an error message when pruning tags, but pruning is not enabled (specific remote)
+      ✓ Should return an error message when pruning tags when no Git executable is known
+      ✓ Should return the "Incompatible Git Version" error message when pruning tags and Git is older than 2.17.0
+    pushBranch
+      ✓ Should push a branch to the remote (1 ms)
+      ✓ Should push a branch to the remote and set upstream (2 ms)
+      ✓ Should force push a branch to the remote (1 ms)
+      ✓ Should force (with lease) push a branch to the remote (1 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+    pushBranchToMultipleRemotes
+      ✓ Should push a branch to one remote (1 ms)
+      ✓ Should push a branch to multiple remotes (2 ms)
+      ✓ Should push a branch to multiple remotes, stopping if an error occurs (3 ms)
+      ✓ Should return an error when no remotes are specified
+    pushTag
+      ✓ Should push a tag to one remote (2 ms)
+      ✓ Should push a tag to multiple remotes (2 ms)
+      ✓ Should push a tag to multiple remotes, stopping if an error occurs (2 ms)
+      ✓ Should return an error when no remotes are specified (1 ms)
+      Should check that the commit exists on each remote the tag is being pushed to
+        ✓ Commit exists on all remotes (3 ms)
+        ✓ Commit exists on one remote (2 ms)
+        ✓ Commit doesn't exist on any remote (1 ms)
+        ✓ Handles remote branches with symbolic references (4 ms)
+        ✓ Handles remote names that contain slashes (5 ms)
+        ✓ Ignores records that aren't branches in the git branch output (3 ms)
+        ✓ Ignores when Git throws an exception (5 ms)
+    checkoutBranch
+      ✓ Should checkout a local branch (1 ms)
+      ✓ Should checkout a remote branch (1 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+    createBranch
+      ✓ Should create a branch at a commit (1 ms)
+      ✓ Should create a branch at a commit, and check it out (2 ms)
+      ✓ Should force create a branch at a commit (1 ms)
+      ✓ Should force create a branch at a commit, and check it out (2 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+      ✓ Should return an error message thrown by git when creating a branch, and not proceed to check out the force-created branch (1 ms)
+      ✓ Should return an error message thrown by git when checking out a force-created branch (3 ms)
+    deleteBranch
+      ✓ Should delete the branch (1 ms)
+      ✓ Should force delete the branch (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    deleteRemoteBranch
+      ✓ Should delete the remote branch (2 ms)
+      ✓ Should delete the remote tracking branch if the branch is no longer on the remote (2 ms)
+      ✓ Should return an error message thrown by git (while deleting the branch on the remote) (1 ms)
+      ✓ Should return an error message thrown by git (while deleting the remote tracking branch) (2 ms)
+    fetchIntoLocalBranch
+      ✓ Should fetch a remote branch into a local branch (2 ms)
+      ✓ Should (force) fetch a remote branch into a local branch (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    pullBranch
+      ✓ Should pull a remote branch into the current branch (2 ms)
+      ✓ Should pull a remote branch into the current branch (always creating a new commit) (1 ms)
+      ✓ Should pull a remote branch into the current branch (signing the new commit) (2 ms)
+      ✓ Should pull a remote branch into the current branch (squash and staged changes exist) (4 ms)
+      ✓ Should pull a remote branch into the current branch (squash and staged changes exist, signing merge commit) (3 ms)
+      ✓ Should pull a remote branch into the current branch (squash and no staged changes) (3 ms)
+      ✓ Should pull a remote branch into the current branch (squash and when diff-index fails) (3 ms)
+      ✓ Should pull a remote branch into the current branch (ignore create new commit when squashing) (3 ms)
+      ✓ Should pull a remote branch into the current branch (squash and staged changes exist, dialog.pullBranch.squashMessageFormat === "Git SQUASH_MSG") (4 ms)
+      ✓ Should return an error message thrown by git (when pull fails) (2 ms)
+      ✓ Should return an error message thrown by git (when commit fails) (3 ms)
+    renameBranch
+      ✓ Should rename a branch (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    merge
+      ✓ Should merge a branch into the current branch (2 ms)
+      ✓ Should merge a branch into the current branch (always creating a new commit) (1 ms)
+      ✓ Should merge a branch into the current branch (signing the new commit) (1 ms)
+      ✓ Should merge a branch into the current branch (squash and staged changes exist) (4 ms)
+      ✓ Should merge a remote-tracking branch into the current branch (squash and staged changes exist) (4 ms)
+      ✓ Should merge a commit into the current branch (squash and staged changes exist) (4 ms)
+      ✓ Should merge a branch into the current branch (squash and staged changes exist, signing merge commit) (4 ms)
+      ✓ Should merge a branch into the current branch (squash and staged changes exist, dialog.merge.squashMessageFormat === "Git SQUASH_MSG") (4 ms)
+      ✓ Should merge a branch into the current branch (squash and no staged changes) (2 ms)
+      ✓ Should merge a branch into the current branch (without committing) (2 ms)
+      ✓ Should merge a branch into the current branch (squash without committing) (1 ms)
+      ✓ Should merge a branch into the current branch (ignore create new commit when squashing) (1 ms)
+      ✓ Should return an error message thrown by git (when merge fails) (2 ms)
+      ✓ Should return an error message thrown by git (when commit fails) (4 ms)
+    rebase
+      ✓ Should rebase the current branch on a branch (1 ms)
+      ✓ Should rebase the current branch on a branch (ignoring date) (1 ms)
+      ✓ Should rebase the current branch on a branch (signing the new commits) (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+      ✓ Should launch the interactive rebase of the current branch on a branch in a terminal (1 ms)
+      ✓ Should launch the interactive rebase of the current branch on a commit in a terminal
+      ✓ Should launch the interactive rebase of the current branch on a branch in a terminal (signing the new commits)
+      ✓ Should return the "Unable to Find Git" error message when no git executable is known
+    archive
+      ✓ Should create a *.tar archive of a ref (2 ms)
+      ✓ Should create a *.zip archive of a ref (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    checkoutCommit
+      ✓ Should checkout a commit (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    cherrypickCommit
+      ✓ Should cherrypick a commit (with a single parent) (2 ms)
+      ✓ Should cherrypick a commit (with multiple parents) (1 ms)
+      ✓ Should record origin when cherry picking a commit (1 ms)
+      ✓ Should cherrypick a commit (signing the new commit) (2 ms)
+      ✓ Should not commit the cherrypick of a commit (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    dropCommit
+      ✓ Should drop a commit (2 ms)
+      ✓ Should drop a commit (signing any new commits) (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    resetToCommit
+      ✓ Should perform a hard reset to a commit (2 ms)
+      ✓ Should perform a hard reset to a commit (1 ms)
+      ✓ Should perform a hard reset to a commit (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    revertCommit
+      ✓ Should revert a commit (with a single parent) (2 ms)
+      ✓ Should revert a commit (with multiple parents) (1 ms)
+      ✓ Should revert a commit (signing the new commit) (1 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+    setConfigValue
+      ✓ Should set a global config value (1 ms)
+      ✓ Should set a local config value (1 ms)
+      ✓ Should set a system config value (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    unsetConfigValue
+      ✓ Should unset a global config value (1 ms)
+      ✓ Should unset a local config value (2 ms)
+      ✓ Should unset a system config value (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    cleanUntrackedFiles
+      ✓ Should clean untracked files (2 ms)
+      ✓ Should clean untracked files and directories (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    resetFileToRevision
+      ✓ Should reset file to revision (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    applyStash
+      ✓ Should apply a stash (1 ms)
+      ✓ Should apply a stash and reinstate the index (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    branchFromStash
+      ✓ Should create a branch from a stash (1 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    dropStash
+      ✓ Should drop a stash (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    popStash
+      ✓ Should pop a stash (1 ms)
+      ✓ Should pop a stash and reinstate the index (2 ms)
+      ✓ Should return an error message thrown by git (1 ms)
+    pushStash
+      ✓ Should push the uncommitted changes to a stash (2 ms)
+      ✓ Should push the uncommitted changes to a stash, and set the message (1 ms)
+      ✓ Should push the uncommitted changes (and untracked files) to a stash (1 ms)
+      ✓ Should return an error message thrown by git (2 ms)
+      ✓ Should return the "Unable to Find Git" error message when no git executable is known
+      ✓ Should return the "Incompatible Git Version" error message when Git is older than 2.13.2
+    openExternalDirDiff
+      ✓ Should launch a gui directory diff (for one commit) (21 ms)
+      ✓ Should launch a gui directory diff (between two commits) (22 ms)
+      ✓ Should launch a gui directory diff (for uncommitted changes) (22 ms)
+      ✓ Should launch a gui directory diff (between a commit and the uncommitted changes) (21 ms)
+      ✓ Should launch a directory diff in a terminal (between two commits)
+      ✓ Should return the "Unable to Find Git" error message when no git executable is known
+      ✓ Should display the error message when the diff tool doesn't exit successfully (21 ms)
+    onDidChangeConfiguration
+      ✓ Should not trigger Git command formats to be regenerated if they are unaffected by the change
+    spawn other error cases
+      ✓ Should return the "Unable to Find Git" error message when no git executable is known (1 ms)
+      ✓ Should resolve child process promise only once with cp error (2 ms)
+      ✓ Should return an empty error message thrown by git (2 ms)
+
+PASS tests/commands.test.ts
+  CommandManager
+    ✓ Should construct a CommandManager, and be disposed
+    ✓ Should process onDidChangeGitExecutable events
+    git-graph:codiconsSupported
+      ✓ Should set git-graph:codiconsSupported to TRUE when vscode.version >= 1.42.0 (464 ms)
+      ✓ Should set git-graph:codiconsSupported to FALSE when vscode.version < 1.42.0 (24 ms)
+      ✓ Should log an error message when vscode.commands.executeCommand rejects (22 ms)
+      ✓ Should log an error message when an exception is thrown (21 ms)
+    git-graph.view
+      ✓ Should open the Git Graph View (22 ms)
+      ✓ Should open the Git Graph View to the known repository (21 ms)
+      ✓ Should open the Git Graph View to a newly registered repository (21 ms)
+      ✓ Should open the Git Graph View to the repository containing the active text editor (22 ms)
+    git-graph.addGitRepository
+      ✓ Should register the selected repository (21 ms)
+      ✓ Should display the error message returned when registering the selected repository (21 ms)
+      ✓ Should display an error message when the selected repository is not within the workspace (20 ms)
+      ✓ Should not proceed to register a repository when none was selected (21 ms)
+      ✓ Should handle if showOpenDialog rejects (20 ms)
+      ✓ Should display an error message if no git executable is known (22 ms)
+    git-graph.removeGitRepository
+      ✓ Should ignore the selected repository (21 ms)
+      ✓ Should display an error message if the selected repository no longer exists (28 ms)
+      ✓ Shouldn't attempt to ignore a repository if none was selected (21 ms)
+      ✓ Should handle if showQuickPick rejects (21 ms)
+      ✓ Should display an error message if no git executable is known (22 ms)
+    git-graph.clearAvatarCache
+      ✓ Should clear the avatar cache, and display a success message (20 ms)
+      ✓ Should display the error message returned by AvatarManager.clearCache (22 ms)
+      ✓ Should display an error message when AvatarManager.clearCache rejects (21 ms)
+    git-graph.fetch
+      ✓ Should display a quick pick to select a repository to open in the Git Graph View (with last active repository first) (20 ms)
+      ✓ Should display a quick pick to select a repository to open in the Git Graph View (no last active repository) (21 ms)
+      ✓ Should display a quick pick to select a repository to open in the Git Graph View (last active repository is unknown) (20 ms)
+      ✓ Shouldn't open the Git Graph View when no item is selected in the quick pick (21 ms)
+      ✓ Should display an error message when showQuickPick rejects (21 ms)
+      ✓ Should open the Git Graph View immediately when there is only one repository (21 ms)
+      ✓ Should open the Git Graph View immediately when there are no repositories (21 ms)
+    git-graph.endAllWorkspaceCodeReviews
+      ✓ Should end all workspace code reviews (1 ms)
+    git-graph.endSpecificWorkspaceCodeReview
+      ✓ Should end the selected code review (20 ms)
+      ✓ Should display an error message when there are no code reviews
+      ✓ Shouldn't end a code review if no code review was selected (21 ms)
+      ✓ Should handle endCodeReview rejecting (22 ms)
+      ✓ Should display an error message when the code review couldn't be ended (21 ms)
+      ✓ Should display an error message when showQuickPick rejects (21 ms)
+    git-graph.resumeWorkspaceCodeReview
+      ✓ Should load the selected code review in the Git Graph View (single commit) (21 ms)
+      ✓ Should load the selected code review in the Git Graph View (commit comparison) (22 ms)
+      ✓ Shouldn't load the the Git Graph View if no code review was selected (22 ms)
+      ✓ Should display an error message when there are no code reviews (1 ms)
+      ✓ Should display an error message when showQuickPick rejects (21 ms)
+    git-graph.version
+      ✓ Should display the version information, and copy it to the clipboard (21 ms)
+      ✓ Shouldn't copy the version information to the clipboard if the user closes the information message modal (20 ms)
+      ✓ Should display an error message when the extension version couldn't be retrieved (20 ms)
+      ✓ Should display an error message when the version information couldn't be copied to the clipboard (21 ms)
+      ✓ Should handle if showInformationMessage rejects (21 ms)
+    git-graph.openFile
+      ✓ Should open the provided file
+      ✓ Should open the file of the active text editor
+      ✓ Should display an error message when no URI is provided
+      ✓ Should display an error message when no Git Graph URI is provided
+      ✓ Should display an error message when the file can't be opened (1 ms)
+
+PASS tests/gitGraphView.test.ts
+  GitGraphView
+    WebviewPanel Construction
+      ✓ Should construct a new WebviewPanel (2 ms)
+      ✓ Should reveal the existing WebviewPanel (when one exists)
+      ✓ Should reveal the existing WebviewPanel (when one exists, but it isn't visible)
+      ✓ Should reveal the existing WebviewPanel (when one exists), and send loadViewTo (3 ms)
+      ✓ Should construct a new WebviewPanel, providing loadViewTo
+      ✓ Should construct a new WebviewPanel (no active text editor) (7 ms)
+      ✓ Should construct a WebviewPanel with retainContextWhenHidden set to TRUE
+      ✓ Should construct a WebviewPanel with retainContextWhenHidden set to FALSE (1 ms)
+      ✓ Should construct a WebviewPanel with a colour icon
+      ✓ Should construct a WebviewPanel with a grey icon
+      WebviewPanel.onDidDispose
+        ✓ Should dispose the GitGraphView when the WebviewPanel is disposed
+      WebviewPanel.onDidChangeViewState
+        ✓ Should transition from visible to not-visible correctly (8 ms)
+        ✓ Should transition from not-visible to visible correctly
+        ✓ Should ignore events if they have no effect
+      RepoManager.onDidChangeRepos
+        ✓ Should send the updated repositories to the front-end when the view is already loaded (1 ms)
+        ✓ Should send the updated repositories to the front-end when the view is already loaded (with loadViewTo)
+        ✓ Shouldn't send the updated repositories to the front-end when the view is not visible
+        ✓ Should transition to no repositories correctly
+        ✓ Should transition from no repositories correctly
+      AvatarManager.onAvatar
+        ✓ Should send the avatar
+      RepoFileWatcher.repoChangeCallback
+        ✓ Should refresh the view when it's visible (1 ms)
+        ✓ Shouldn't refresh the view when it isn't visible
+    respondToMessage
+      addRemote
+        ✓ Should add a remote (22 ms)
+      addTag
+        ✓ Should add a tag (22 ms)
+        ✓ Should add a tag, and then push the tag to a remote (22 ms)
+        ✓ Shouldn't push the tag if an error occurred when adding the tag (23 ms)
+      applyStash
+        ✓ Should apply a stash (21 ms)
+      branchFromStash
+        ✓ Should create a branch from a stash (20 ms)
+      checkoutBranch
+        ✓ Should check out a branch (21 ms)
+        ✓ Should check out a branch, and then pull the branch from a remote (20 ms)
+        ✓ Shouldn't pull the branch if an error occurred when checking out the branch (21 ms)
+      checkoutCommit
+        ✓ Should check out a commit (22 ms)
+      cherrypickCommit
+        ✓ Should cherrypick a commit (21 ms)
+        ✓ Should cherrypick a commit, and then open the Visual Studio Code Source Control View (20 ms)
+        ✓ Shouldn't open the Visual Studio Code Source Control View if an error occurred when cherrypicking the commit (21 ms)
+      cleanUntrackedFiles
+        ✓ Should clean the untracked files (22 ms)
+      commitDetails
+        ✓ Should get the data for the Commit Details View (20 ms)
+        ✓ Should get the data for the Commit Details View (Uncommitted Changes) (21 ms)
+        ✓ Should get the data for the Commit Details View (Stash) (21 ms)
+      compareCommits
+        ✓ Should get the data for the Commit Details View (Comparison) (21 ms)
+        ✓ Should get the data for the Commit Details View (Comparison with the Uncommitted Changes) (20 ms)
+      copyFilePath
+        ✓ Should copy a file path to the clipboard (21 ms)
+      copyToClipboard
+        ✓ Should copy text to the clipboard (20 ms)
+      createArchive
+        ✓ Should create an archive (21 ms)
+      createBranch
+        ✓ Should create a branch (21 ms)
+      createPullRequest
+        ✓ Should create a pull request (21 ms)
+        ✓ Should push the branch, and then create a pull request (20 ms)
+        ✓ Shouldn't create a pull request if an error occurred when pushing the branch (21 ms)
+      deleteBranch
+        ✓ Should delete a branch (21 ms)
+        ✓ Should delete a branch, and then delete the branch on the specified remotes (21 ms)
+        ✓ Shouldn't delete a branch on a remote if an error occurred when deleting the local branch (23 ms)
+      deleteRemote
+        ✓ Should delete a remote (22 ms)
+      deleteRemoteBranch
+        ✓ Should delete a remote branch (21 ms)
+      deleteTag
+        ✓ Should delete a tag (20 ms)
+      deleteUserDetails
+        ✓ Should delete user.name and user.email (21 ms)
+        ✓ Should only delete user.name (20 ms)
+        ✓ Should only delete user.email (22 ms)
+      dropCommit
+        ✓ Should drop a commit (20 ms)
+      dropStash
+        ✓ Should drop a stash (22 ms)
+      editRemote
+        ✓ Should edit a remote (20 ms)
+      editUserDetails
+        ✓ Should edit the local user.name and user.email (21 ms)
+        ✓ Should edit the global user.name and user.email, and delete the local user.name and user.email (21 ms)
+        ✓ Should edit the global user.name and user.email, and only delete the local user.name (22 ms)
+        ✓ Should edit the global user.name and user.email, and only delete the local user.email (20 ms)
+        ✓ Shouldn't delete the local user.name or user.email if an error occurred when editing the global user.name (21 ms)
+        ✓ Shouldn't delete the local user.name or user.email if an error occurred when editing the global user.email (21 ms)
+      endCodeReview
+        ✓ Should end a code review (20 ms)
+      exportRepoConfig
+        ✓ Should export the repository configuration (21 ms)
+      fetch
+        ✓ Should fetch a remote, and prune it (20 ms)
+      fetchAvatar
+        ✓ Should fetch an avatar (21 ms)
+      fetchIntoLocalBranch
+        ✓ Should fetch into local branch (21 ms)
+      loadCommits
+        ✓ Should get commits (show tags) (21 ms)
+        ✓ Should get commits (show remote branches) (27 ms)
+        ✓ Should get commits (include commits mentioned by reflogs) (22 ms)
+        ✓ Should get commits (only follow first parent) (27 ms)
+      loadRepoInfo
+        ✓ Should get the repository information (initial repo load) (64 ms)
+        ✓ Should get the repository information (subsequent repo load) (23 ms)
+        ✓ Should get the repository information (error thrown by getRepoInfo) (21 ms)
+        ✓ Should get the repository information (repo no longer exists) (22 ms)
+      loadConfig
+        ✓ Should get the Git configuration for a repository (22 ms)
+      loadRepos
+        ✓ Should load the repositories (without checking for new repositories) (21 ms)
+        ✓ Should load the repositories (found one new repository) (44 ms)
+        ✓ Should load the repositories (no new repositories) (21 ms)
+      merge
+        ✓ Should perform a merge (creating a new commit) (21 ms)
+        ✓ Should perform a merge (squash) (22 ms)
+        ✓ Should perform a merge (no commit) (20 ms)
+      openExtensionSettings
+        ✓ Should open the Extension Settings (21 ms)
+      openExternalDirDiff
+        ✓ Should open an External Directory Diff (20 ms)
+      openExternalUrl
+        ✓ Should open an External URL (22 ms)
+      openFile
+        ✓ Should open a file (21 ms)
+      openTerminal
+        ✓ Should open a terminal (23 ms)
+      popStash
+        ✓ Should pop a stash (22 ms)
+      pruneRemote
+        ✓ Should prune a remote (21 ms)
+      pullBranch
+        ✓ Should pull a branch from a remote (20 ms)
+      pushBranch
+        ✓ Should push a branch to a remote (21 ms)
+      pushStash
+        ✓ Should push a stash (22 ms)
+      pushTag
+        ✓ Should push a tag to a remote (23 ms)
+      rebase
+        ✓ Should rebase the current branch on a branch (21 ms)
+      renameBranch
+        ✓ Should rename a branch (24 ms)
+      rescanForRepos
+        ✓ Should rescan the workspace for repositories (repositories added) (22 ms)
+        ✓ Should rescan the workspace for repositories (no new repositories were found) (21 ms)
+      resetFileToRevision
+        ✓ Should reset the file to a revision (23 ms)
+      resetToCommit
+        ✓ Should reset the current branch to a commit (21 ms)
+      revertCommit
+        ✓ Should revert a commit (23 ms)
+      setGlobalViewState
+        ✓ Should set the Global View State (32 ms)
+      setRepoState
+        ✓ Should set the Repository State (25 ms)
+      setWorkspaceViewState
+        ✓ Should set the Workspace View State (22 ms)
+      showErrorMessage
+        ✓ Should show a Visual Studio Code Error Message (21 ms)
+      startCodeReview
+        ✓ Should start a code review (24 ms)
+      tagDetails
+        ✓ Should get a tag's details (26 ms)
+      updateCodeReview
+        ✓ Should update a code review (22 ms)
+      viewDiff
+        ✓ Should open a diff (21 ms)
+      viewDiffWithWorkingFile
+        ✓ Should open a diff with the working file (22 ms)
+      viewFileAtRevision
+        ✓ Should view a file at a revision (69 ms)
+      viewScm
+        ✓ Should open the Visual Studio Code Source Control View (66 ms)
+    sendMessage
+      ✓ Should send a message to the Webview (38 ms)
+      ✓ Should log an error message when Webview.postMessage rejects, and the GitGraphView hasn't been disposed (22 ms)
+      ✓ Should log an information message when Webview.postMessage rejects, and the GitGraphView has been disposed (23 ms)
+      ✓ Shouldn't send a message to the Webview if it has been disposed (22 ms)
+    getHtmlForWebview
+      ✓ Should get HTML when no Git executable is known (1 ms)
+      ✓ Should get HTML when no repositories are found in the workspace (43 ms)
+      ✓ Should get HTML when repositories exist (1 ms)
+      ✓ Should get HTML when repositories exist (fetch avatars enabled) (2 ms)
+  standardiseCspSource
+    ✓ Should not affect vscode-resource scheme-only sources
+    ✓ Should not affect file scheme-only sources
+    ✓ Should not affect http scheme-only sources
+    ✓ Should not affect https scheme-only sources
+    ✓ Should not affect file scheme sources (1 ms)
+    ✓ Should not affect http host-only sources (1 ms)
+    ✓ Should not affect https host-only sources
+    ✓ Should not affect https host-only IP sources
+    ✓ Should remove the path component from http sources
+    ✓ Should remove the path component from https sources
+    ✓ Should remove the path component from https IP sources
+    ✓ Should remove the query from http/https sources
+    ✓ Should remove the fragment from http/https sources
+    ✓ Should remove the path, query & fragment from http/https sources
+
+PASS tests/repoManager.test.ts (5.176 s)
+  RepoManager
+    ✓ Should construct a RepoManager, and be disposed (503 ms)
+    onDidChangeWorkspaceFolders
+      ✓ Should add repositories contained within an added workspace folder (21 ms)
+      ✓ Should add repositories contained within an added workspace folder (unable to find workspaceFolderIndex) (21 ms)
+      ✓ Should not emit a repo event when no repositories were contained within an added workspace folder (21 ms)
+      ✓ Should remove repositories contained within a removed workspace folder (21 ms)
+      ✓ Should not emit a repo event when no repositories were contained within a removed workspace folder (21 ms)
+      ✓ Should update all repositories workspaceFolderIndex's when workspace folders have been reordered (21 ms)
+      ✓ Should not emit repo events is no changes occurred (21 ms)
+    maxDepthOfRepoSearchChanged
+      ✓ Should not trigger a workspace search if the value hasn't increased (21 ms)
+      ✓ Should not be triggered when other extension settings are changed (21 ms)
+    startupTasks
+      ✓ Should run startup tasks (22 ms)
+      ✓ Should run startup tasks (calls saveRepos when updateReposWorkspaceFolderIndex makes changes) (20 ms)
+      ✓ Should run startup tasks (doesn't call saveRepos when updateReposWorkspaceFolderIndex doesn't make changes) (21 ms)
+      ✓ Should run startup tasks (doesn't call sendRepos when checkReposExist makes changes) (21 ms)
+      ✓ Should run startup tasks (calls sendRepos when checkReposExist doesn't make changes) (21 ms)
+    removeReposNotInWorkspace
+      ✓ Should remove repositories that aren't in the workspace (20 ms)
+      ✓ Should remove all repositories when no workspace folders exist (22 ms)
+      ✓ Shouldn't remove repositories that are within a workspace folder (41 ms)
+      ✓ Shouldn't remove repositories that contain a workspace folder (21 ms)
+    registerRepo
+      ✓ Should register a new repository (21 ms)
+      ✓ Should register a new repository (loading it upon registration) (20 ms)
+      ✓ Should register a new repository (removing it from the ignored repositories) (21 ms)
+      ✓ Should register a new repository (should only update the workspaceFolderIndex for the repository that was added) (20 ms)
+      ✓ Should return an error message when the path being registered is not a Git repository (21 ms)
+      ✓ Should return an error message when the path being registered is contained within a known Git repository (21 ms)
+    ignoreRepo
+      ✓ Should ignore the repository and return TRUE, when the repository is known (21 ms)
+      ✓ Should ignore the repository and return TRUE, when the repository is known (without creating duplicates in the list of ignored repositories) (21 ms)
+      ✓ Should return FALSE, when the repository is unknown (20 ms)
+    getRepos
+      ✓ Should get the set of repositories (20 ms)
+    getNumRepos
+      ✓ Should get the number of repositories (21 ms)
+    getRepoContainingFile
+      ✓ Should return the path of the repository that contains the file (22 ms)
+      ✓ Should return the path of the closest repository that contains the file (20 ms)
+    getKnownRepo
+      ✓ Should return the path of the repository matching the specified path (22 ms)
+      ✓ Should return the path of the repository matching the specified path (resolving symbolic path components) (21 ms)
+      ✓ Should return NULL if no repository matches the specified path (21 ms)
+    isKnownRepo
+      ✓ Should return TRUE when the repository is known (21 ms)
+      ✓ Should return FALSE when the repository is not known (21 ms)
+    checkReposExist
+      ✓ Should remove any repositories that no longer exist (21 ms)
+      ✓ Should transfer any repository state if the path to the repository changes (20 ms)
+      ✓ Should return FALSE when no changes are made (all repositories still exist) (21 ms)
+      ✓ Should return gracefully when an exception occurs (20 ms)
+    setRepoState
+      ✓ Should set the state of the repository (21 ms)
+    searchWorkspaceForRepos
+      ✓ Should add repositories that are detected in the workspace (22 ms)
+      ✓ Should add repositories that are detected in subfolders of the workspace (43 ms)
+      ✓ Should halt recursion when fs.readdir returns an error (44 ms)
+      ✓ Should halt recursion when fs.stat returns an error (45 ms)
+      ✓ Should halt recursion when repoRoot call rejects (55 ms)
+    checkReposForNewSubmodules
+      ✓ Should add any new submodules (56 ms)
+      ✓ Shouldn't add any submodules that are already known (28 ms)
+      ✓ Shouldn't add any submodules that have been ignored (21 ms)
+    onWatcherCreate
+      ✓ Should add a repository when a repository is added (43 ms)
+      ✓ Should add a repository when a .git directory is added (68 ms)
+      ✓ Should not proceed to add repositories when the directory added is within .git (21 ms)
+      ✓ Shouldn't add a repository when a file is added (43 ms)
+      ✓ Shouldn't add a repository when a directory is added, but it doesn't contain any repositories (41 ms)
+    onWatcherChange
+      ✓ Should remove a repository when a repository is deleted (42 ms)
+      ✓ Should remove a repository when a .git directory is deleted (46 ms)
+      ✓ Should not proceed to remove a repository when the directory removed is within .git (21 ms)
+      ✓ Shouldn't remove a repository when a repository isn't deleted (43 ms)
+      ✓ Shouldn't remove a repository when a directory is removed, but it doesn't contain any repositories (49 ms)
+    onWatcherDelete
+      ✓ Should delete repositories within a deleted directory (22 ms)
+      ✓ Should delete repositories within a deleted repository (22 ms)
+      ✓ Should not proceed to remove repositories if the deleted URI is within .git (21 ms)
+      ✓ Should not remove any repository if the deleted directory doesn't contain any repositories (22 ms)
+    checkRepoForNewConfig
+      ✓ Shouldn't proceed with processing config if it couldn't be parsed (21 ms)
+      ✓ Shouldn't proceed with processing config if it isn't an object (20 ms)
+      apply config
+        commitOrdering
+          ✓ Should import RepoCommitOrdering.Date correctly (22 ms)
+          ✓ Should import RepoCommitOrdering.AuthorDate correctly (23 ms)
+          ✓ Should import RepoCommitOrdering.Topological correctly (25 ms)
+        fileViewType
+          ✓ Should import FileViewType.Tree correctly (23 ms)
+          ✓ Should import FileViewType.List correctly (24 ms)
+        hideRemotes
+          ✓ Should import hideRemotes correctly (23 ms)
+        includeCommitsMentionedByReflogs
+          ✓ Should import BooleanOverride.Enabled correctly (21 ms)
+          ✓ Should import BooleanOverride.Disabled correctly (22 ms)
+        issueLinkingConfig
+          ✓ Should import issueLinkingConfig correctly (24 ms)
+        name
+          ✓ Should import name correctly (24 ms)
+        onlyFollowFirstParent
+          ✓ Should import BooleanOverride.Enabled correctly (23 ms)
+          ✓ Should import BooleanOverride.Disabled correctly (24 ms)
+        onRepoLoadShowCheckedOutBranch
+          ✓ Should import BooleanOverride.Enabled correctly (23 ms)
+          ✓ Should import BooleanOverride.Disabled correctly (46 ms)
+        onRepoLoadShowSpecificBranches
+          ✓ Should import onRepoLoadShowSpecificBranches correctly (86 ms)
+        pullRequestConfig
+          ✓ Should import a Bitbucket config correctly (26 ms)
+          ✓ Should import a Custom config correctly (22 ms)
+          ✓ Should import a GitHub config correctly (24 ms)
+          ✓ Should import a GitLab config correctly (27 ms)
+          ✓ Should import a GitHub config with no destination remote correctly (57 ms)
+        showRemoteBranches
+          ✓ Should import BooleanOverride.Enabled correctly (70 ms)
+          ✓ Should import BooleanOverride.Disabled correctly (22 ms)
+        showStashes
+          ✓ Should import BooleanOverride.Enabled correctly (21 ms)
+          ✓ Should import BooleanOverride.Disabled correctly (22 ms)
+        showTags
+          ✓ Should import BooleanOverride.Enabled correctly (22 ms)
+          ✓ Should import BooleanOverride.Disabled correctly (26 ms)
+      validation
+        ✓ Should display a validation error when "commitOrdering" is invalid (22 ms)
+        ✓ Should display a validation error when "fileViewType" is invalid (23 ms)
+        ✓ Should display a validation error when "hideRemotes" is invalid (not an array) (21 ms)
+        ✓ Should display a validation error when "hideRemotes" is invalid (array doesn't contain strings) (23 ms)
+        ✓ Should display a validation error when "includeCommitsMentionedByReflogs" is invalid (58 ms)
+        ✓ Should display a validation error when "issueLinkingConfig" is invalid (not an object) (44 ms)
+        ✓ Should display a validation error when "issueLinkingConfig" is invalid (null) (28 ms)
+        ✓ Should display a validation error when "issueLinkingConfig" is invalid (no issue) (23 ms)
+        ✓ Should display a validation error when "issueLinkingConfig" is invalid (no url) (21 ms)
+        ✓ Should display a validation error when "name" is invalid (23 ms)
+        ✓ Should display a validation error when "onlyFollowFirstParent" is invalid (23 ms)
+        ✓ Should display a validation error when "onRepoLoadShowCheckedOutBranch" is invalid (24 ms)
+        ✓ Should display a validation error when "onRepoLoadShowSpecificBranches" is invalid (not an array) (24 ms)
+        ✓ Should display a validation error when "onRepoLoadShowSpecificBranches" is invalid (array doesn't contain strings) (32 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (not an object) (22 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (null) (26 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (unknown provider) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no custom provider config) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (custom provider config is null) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (custom provider config is missing name) (20 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (custom provider config is missing templateUrl) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no hostRootUrl) (22 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no sourceRemote) (20 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no sourceOwner) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no sourceRepo) (20 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no destRemote) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no destOwner) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no destRepo) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no destProjectId) (21 ms)
+        ✓ Should display a validation error when "pullRequestConfig" is invalid (no destBranch) (20 ms)
+        ✓ Should display a validation error when "showRemoteBranches" is invalid (22 ms)
+        ✓ Should display a validation error when "showStashes" is invalid (20 ms)
+        ✓ Should display a validation error when "showTags" is invalid (21 ms)
+    onConfigWatcherCreateOrChange
+      ✓ Should import the repository configuration when the file is created (42 ms)
+      ✓ Should import the repository configuration when the file is changed (41 ms)
+      ✓ Shouldn't import the repository configuration when user responds "No" (41 ms)
+      ✓ Shouldn't import the repository configuration when user cancels the modal (41 ms)
+      ✓ Shouldn't import the repository configuration when it is not for a known repository (21 ms)
+    exportRepoConfig
+      ✓ Should export the repository configuration (22 ms)
+      ✓ Should export the repository configuration, but not save the state change if the repository no longer exist (22 ms)
+      ✓ Should export the repository configuration (when .vscode already exists) (20 ms)
+      ✓ Should return an error message when .vscode can't be created (22 ms)
+      ✓ Should return an error message when the file can't be written (20 ms)
+      commitOrdering
+        ✓ Should export RepoCommitOrdering.Date correctly (21 ms)
+        ✓ Should export RepoCommitOrdering.AuthorDate correctly (21 ms)
+        ✓ Should export RepoCommitOrdering.Topological correctly (21 ms)
+      fileViewType
+        ✓ Should export FileViewType.Tree correctly (20 ms)
+        ✓ Should export FileViewType.List correctly (21 ms)
+      hideRemotes
+        ✓ Should export hideRemotes correctly (21 ms)
+      includeCommitsMentionedByReflogs
+        ✓ Should export BooleanOverride.Enabled correctly (21 ms)
+        ✓ Should export BooleanOverride.Disabled correctly (21 ms)
+      issueLinkingConfig
+        ✓ Should export issueLinkingConfig correctly (20 ms)
+      name
+        ✓ Should export name correctly (21 ms)
+      onlyFollowFirstParent
+        ✓ Should export BooleanOverride.Enabled correctly (21 ms)
+        ✓ Should export BooleanOverride.Disabled correctly (22 ms)
+      onRepoLoadShowCheckedOutBranch
+        ✓ Should export BooleanOverride.Enabled correctly (21 ms)
+        ✓ Should export BooleanOverride.Disabled correctly (21 ms)
+      onRepoLoadShowSpecificBranches
+        ✓ Should export onRepoLoadShowSpecificBranches correctly (20 ms)
+      pullRequestConfig
+        ✓ Should export a Bitbucket config correctly (22 ms)
+        ✓ Should export a Custom config correctly (20 ms)
+        ✓ Should export a GitHub config correctly (20 ms)
+        ✓ Should export a GitLab config correctly (21 ms)
+      showRemoteBranches
+        ✓ Should export BooleanOverride.Enabled correctly (20 ms)
+        ✓ Should export BooleanOverride.Disabled correctly (21 ms)
+      showStashes
+        ✓ Should export BooleanOverride.Enabled correctly (20 ms)
+        ✓ Should export BooleanOverride.Disabled correctly (21 ms)
+      showTags
+        ✓ Should export BooleanOverride.Enabled correctly (20 ms)
+        ✓ Should export BooleanOverride.Disabled correctly (21 ms)
+
+Test Suites: 1 failed, 14 passed, 15 total
+Tests:       3 failed, 1266 passed, 1269 total
+Snapshots:   0 total
+Time:        6.688 s
+Ran all test suites.
