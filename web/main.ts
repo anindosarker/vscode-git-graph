@@ -1296,6 +1296,18 @@ class GitGraphView {
         i +
         '" data-color="' +
         vertexColours[i] +
+        '" style="border-left: 3px solid ' +
+        this.config.graph.colours[
+        	vertexColours[i] % this.config.graph.colours.length
+        ] +
+        ';' +
+        (commit.parents.length > 1
+        	? ' background-color: ' +
+            this.config.graph.colours[
+            	vertexColours[i] % this.config.graph.colours.length
+            ] +
+            '20;'
+        	: '') +
         '">' +
         (this.config.referenceLabels.branchLabelsAlignedToGraph
         	? '<td>' +
