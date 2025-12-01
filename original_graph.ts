@@ -406,8 +406,7 @@ class Vertex {
   	config: GG.GraphConfig,
   	expandOffset: boolean,
   	overListener: (event: MouseEvent) => void,
-  	outListener: (event: MouseEvent) => void,
-  	avatar: string | null
+  	outListener: (event: MouseEvent) => void
   ) {
   	if (this.onBranch === null) return;
 
@@ -434,17 +433,6 @@ class Vertex {
   	}
   	svg.appendChild(circle);
 
-  	if (avatar !== null) {
-  		const image = document.createElementNS(SVG_NAMESPACE, 'image');
-  		image.setAttribute('x', (parseFloat(cx) - 6).toString());
-  		image.setAttribute('y', (parseFloat(cy) - 6).toString());
-  		image.setAttribute('width', '12');
-  		image.setAttribute('height', '12');
-  		image.setAttribute('href', avatar);
-  		image.setAttribute('clip-path', 'url(#GraphCircleClip)');
-  		svg.appendChild(image);
-  	}
-
   	if (this.isStash && !this.isCurrent) {
   		circle.setAttribute('r', '6.5');
   		circle.setAttribute('class', 'stashOuter');
@@ -470,7 +458,6 @@ class Graph {
   private branches: Branch[] = [];
   private availableColours: number[] = [];
   private maxWidth: number = -1;
-  private avatars: AvatarImageCollection = {};
 
   private commits: ReadonlyArray<GG.GitCommit> = [];
   private commitHead: string | null = null;
@@ -508,18 +495,6 @@ class Graph {
   		document.createElementNS(SVG_NAMESPACE, 'defs')
   	);
 
-  	let clipPath = defs.appendChild(
-  		document.createElementNS(SVG_NAMESPACE, 'clipPath')
-  	);
-  	clipPath.setAttribute('id', 'GraphCircleClip');
-  	clipPath.setAttribute('clipPathUnits', 'objectBoundingBox');
-  	let clipCircle = clipPath.appendChild(
-  		document.createElementNS(SVG_NAMESPACE, 'circle')
-  	);
-  	clipCircle.setAttribute('cx', '0.5');
-  	clipCircle.setAttribute('cy', '0.5');
-  	clipCircle.setAttribute('r', '0.5');
-
   	let linearGradient = defs.appendChild(
   		document.createElementNS(SVG_NAMESPACE, 'linearGradient')
   	);
@@ -552,14 +527,12 @@ class Graph {
   	commits: ReadonlyArray<GG.GitCommit>,
   	commitHead: string | null,
   	commitLookup: { [hash: string]: number },
-  	onlyFollowFirstParent: boolean,
-  	avatars: AvatarImageCollection
+  	onlyFollowFirstParent: boolean
   ) {
   	this.commits = commits;
   	this.commitHead = commitHead;
   	this.commitLookup = commitLookup;
   	this.onlyFollowFirstParent = onlyFollowFirstParent;
-  	this.avatars = avatars;
   	this.vertices = [];
   	this.branches = [];
   	this.availableColours = [];
@@ -614,10 +587,6 @@ class Graph {
   	}
   }
 
-  public loadAvatar(email: string, image: string) {
-  	this.avatars[email] = image;
-  }
-
   public render(expandedCommit: ExpandedCommit | null) {
   	this.expandedCommitIndex =
       expandedCommit !== null ? expandedCommit.index : -1;
@@ -638,11 +607,7 @@ class Graph {
   			this.config,
   			expandedCommit !== null && i > expandedCommit.index,
   			overListener,
-  			outListener,
-  			typeof this.avatars[this.commits[this.vertices[i].id].email] ===
-          'string'
-  				? this.avatars[this.commits[this.vertices[i].id].email]
-  				: null
+  			outListener
   		);
   	}
 
