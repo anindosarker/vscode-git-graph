@@ -1286,6 +1286,10 @@ class GitGraphView {
             '."></span>'
         	: '';
 
+  		let commitColor =
+        this.config.graph.colours[
+        	vertexColours[i] % this.config.graph.colours.length
+        ];
   		html +=
         '<tr class="commit' +
         (commit.hash === currentHash ? ' current' : '') +
@@ -1296,21 +1300,15 @@ class GitGraphView {
         i +
         '" data-color="' +
         vertexColours[i] +
-        '" style="border-left: 3px solid ' +
-        this.config.graph.colours[
-        	vertexColours[i] % this.config.graph.colours.length
-        ] +
-        ';' +
+        '" style="' +
         (commit.parents.length > 1
-        	? ' background-color: ' +
-            this.config.graph.colours[
-            	vertexColours[i] % this.config.graph.colours.length
-            ] +
-            '20;'
+        	? ' background-color: ' + commitColor + '20;'
         	: '') +
         '">' +
         (this.config.referenceLabels.branchLabelsAlignedToGraph
-        	? '<td>' +
+        	? '<td style="border-right: 2px solid ' +
+            commitColor +
+            ';">' +
             (refBranches !== ''
             	? '<span style="margin-left:' +
                 (widthsAtVertices[i] - 4) +
@@ -1319,7 +1317,9 @@ class GitGraphView {
             	: '') +
             '</td><td><span class="description">' +
             commitDot
-        	: '<td></td><td><span class="description">' +
+        	: '<td style="border-right: 2px solid ' +
+            commitColor +
+            ';"></td><td><span class="description">' +
             commitDot +
             refBranches) +
         (this.config.referenceLabels.tagLabelsOnRight
